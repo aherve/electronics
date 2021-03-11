@@ -26,7 +26,7 @@ const int colors[] = {
 };
 
 // length of max melody
-const int melodyLen = 100;
+const int melodyLen = 500;
 int melody[melodyLen]; // init melody array
 
 int scaleLen = sizeof(scale) / sizeof(int);
@@ -68,6 +68,9 @@ void loop() {
   while (cursor < level) {
     if (getInput() == melody[cursor]) {
       cursor++;
+      if (cursor == level) {
+        delay(800);
+      }
     } else {
       fail();
       delay(500);

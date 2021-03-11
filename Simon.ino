@@ -87,6 +87,7 @@ int getInput() {
   while(true) {
     for (int i = 0; i < scaleLen; i++) {
       if (digitalRead(colors[i])== HIGH) { 
+        play(i);
         return i;
       }
     }
@@ -95,7 +96,7 @@ int getInput() {
 
 void playUpTo(int iMax) {
   for (int i = 0; i < iMax ; i++) {
-    play(i);
+    play(melody[i]);
   }
 }
 
@@ -110,7 +111,7 @@ void blink() {
     pinMode(colors[i], OUTPUT);
   }
 
-  for (int b = 0; b < 5; b++) {
+  for (int b = 0; b < 3; b++) {
     for (int i = 0; i < scaleLen; i++) {
       digitalWrite(colors[i], HIGH);
     }

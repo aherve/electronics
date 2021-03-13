@@ -23,6 +23,7 @@ const int colors[] = {
   5,
 };
 const int speakerPin = 6;
+const int gameModePin = 7;
 
 // length of max melody
 const int melodyLen = 500;
@@ -34,9 +35,16 @@ int randomIndex() {
   return floor(random(scaleLen));
 }
 
+// 3-way switch can power up the arduino board, while choosing between two game modes
+bool challengeMode = false;
+
 void setup() {
+  pinMode(challengeMode, INPUT);
+  challengeMode = digitalRead(gameModePin) == HIGH;
   randomSeed(analogRead(0));
-  initMelody();
+  if ( challengeMode ) {
+    initMelody();
+  }
   blink();
 }
 
@@ -61,6 +69,11 @@ void play(int i) {
 int level = 0;
 int cursor = 0;
 void loop() {
+  // free mode: just play notes
+  while ( !challengeMode ) {
+    getInput();
+  }
+
   level++;
   playUpTo(level);
 

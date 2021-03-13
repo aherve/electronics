@@ -7,8 +7,6 @@
 //  440,
 
 
-const int speakerPin = 2;
-
 // Frequencies in hertz (rounded to int)
 const int scale[] = {
   262,
@@ -19,11 +17,12 @@ const int scale[] = {
 
 // pins for LEDs
 const int colors[] = {
+  2,
   3,
   4,
   5,
-  6,
 };
+const int speakerPin = 6;
 
 // length of max melody
 const int melodyLen = 500;
@@ -64,6 +63,7 @@ int cursor = 0;
 void loop() {
   level++;
   playUpTo(level);
+
   cursor = 0;
   while (cursor < level) {
     if (getInput() == melody[cursor]) {

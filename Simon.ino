@@ -1,4 +1,4 @@
-#define pinSize 8 // 7-segments ( + dot ) display
+#define displayPinSize 8 // 7-segments ( + dot ) display
 // scale:
 //  220,
 //  261.6,
@@ -33,7 +33,7 @@ int melody[melodyLen]; // init melody array
 int scaleLen = sizeof(scale) / sizeof(int);
 
 // pins for score display
-const int pins[pinSize] = {A0, A1, A2, A3, A4, A5, 8, 9}; // A6 and A7 are broken it seems
+const int displayPins[displayPinSize] = {A0, A1, A2, A3, A4, A5, 8, 9}; // A6 and A7 are broken it seems
 
 int randomIndex() {
   return floor(random(scaleLen));
@@ -43,6 +43,11 @@ int randomIndex() {
 bool challengeMode = false;
 
 void setup() {
+
+  // Set display displayPins as OUTPUT
+  for (int i = 0; i < displayPinSize; i++) {
+    pinMode(displayPins[i], OUTPUT);
+  }
 
   pinMode(challengeMode, INPUT);
   challengeMode = digitalRead(gameModePin) == HIGH;
@@ -154,56 +159,56 @@ void display(int i) {
 
   // A
   if( modTen == 1 || modTen == 4 ) {
-    digitalWrite(pins[0], LOW);
+    digitalWrite(displayPins[0], LOW);
   } else {
-    digitalWrite(pins[0], HIGH);
+    digitalWrite(displayPins[0], HIGH);
   }
   // B
   if( modTen == 5 || modTen == 6 ) {
-    digitalWrite(pins[1], LOW);
+    digitalWrite(displayPins[1], LOW);
   } else {
-    digitalWrite(pins[1], HIGH);
+    digitalWrite(displayPins[1], HIGH);
   }
 
   // C
   if( modTen == 2 ) {
-    digitalWrite(pins[2], LOW);
+    digitalWrite(displayPins[2], LOW);
   } else {
-    digitalWrite(pins[2], HIGH);
+    digitalWrite(displayPins[2], HIGH);
   }
 
   // D
   if( modTen == 1 || modTen == 4 || modTen == 7 ) {
-    digitalWrite(pins[3], LOW);
+    digitalWrite(displayPins[3], LOW);
   } else {
-    digitalWrite(pins[3], HIGH);
+    digitalWrite(displayPins[3], HIGH);
   }
 
   // E
   if( modTen == 1 || modTen == 3 || modTen == 4 || modTen == 5 || modTen == 7 || modTen == 9 ) {
-    digitalWrite(pins[4], LOW);
+    digitalWrite(displayPins[4], LOW);
   } else {
-    digitalWrite(pins[4], HIGH);
+    digitalWrite(displayPins[4], HIGH);
   }
 
   // F
   if( modTen == 1 || modTen == 2 || modTen == 3 || modTen == 7  ) {
-    digitalWrite(pins[5], LOW);
+    digitalWrite(displayPins[5], LOW);
   } else {
-    digitalWrite(pins[5], HIGH);
+    digitalWrite(displayPins[5], HIGH);
   }
 
   // G
   if( modTen == 1 || modTen == 7 || modTen == 0  ) {
-    digitalWrite(pins[6], LOW);
+    digitalWrite(displayPins[6], LOW);
   } else {
-    digitalWrite(pins[6], HIGH);
+    digitalWrite(displayPins[6], HIGH);
   }
 
   // dot
   if (i > 9) {
-    digitalWrite(pins[7], HIGH);
+    digitalWrite(displayPins[7], HIGH);
   } else {
-    digitalWrite(pins[7], LOW);
+    digitalWrite(displayPins[7], LOW);
   }
 }

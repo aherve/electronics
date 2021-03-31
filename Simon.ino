@@ -51,7 +51,7 @@ void setup() {
 
   pinMode(challengeMode, INPUT);
   challengeMode = digitalRead(gameModePin) == HIGH;
-  randomSeed(analogRead(0));
+  randomSeed(analogRead(A6));
   if ( challengeMode ) {
     initMelody();
   }

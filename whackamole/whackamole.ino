@@ -9,6 +9,9 @@ const int numberSegments[10] = { B00111111, B00000110, B01011011, B01001111, B01
 
 #define ledSelector 4
 bool ledState[5] = {true,false,true,false,true};
+bool buttonState[5] = {false,false,false,false,false};
+
+const int buttonInputPins[5] = {A0, A1, A2, A3, A4};
 
 void setup() {
   //set pins to output so you can control the shift register
@@ -23,6 +26,10 @@ void setup() {
     pinMode(digitSelectors[digitIndex], OUTPUT);
     digitalWrite(digitSelectors[digitIndex], HIGH);
   }
+  // setup input buttons
+  for (int i = 0; i < 5; i++) {
+    pinMode(buttonInputPins[i], INPUT_PULLUP);
+  }
 }
 
 unsigned long lastChange = millis();
@@ -32,15 +39,24 @@ void loop() {
   if (now - lastChange > 500) {
     value++;
     lastChange = now;
-
-    for (int i = 0; i < 5; i++) {
-      ledState[i] = !ledState[i];
-    }
-
   }
 
+  whack();
   displayNumber(value);
   displayLEDs(ledState);
+}
+
+void whack() {
+  for (int i = 0; i < 5; i++) {
+    bool isPushed = digitalRead(buttonInputPins[i]) == LOW;
+    if (isPushed != buttonState[i] ) {
+      // change on button from up to down 
+      if (isPushed) {
+        ledState[i] = !ledState[i];
+      }
+      buttonState[i] = isPushed;
+    }
+  }
 }
 
 void displayNumber(int value) {
@@ -66,10 +82,10 @@ void displayLEDs(bool state[5]) {
       asNumber++;
     }
   }
-    digitalWrite(SHIFT_LATCH, LOW);
-    shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, asNumber);
-    digitalWrite(SHIFT_LATCH, HIGH);
-    digitalWrite(ledSelector, LOW);
-    delay(10);
-    digitalWrite(ledSelector, HIGH);
+  digitalWrite(SHIFT_LATCH, LOW);
+  shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, asNumber);
+  digitalWrite(SHIFT_LATCH, HIGH);
+  digitalWrite(ledSelector, LOW);
+  delay(10);
+  digitalWrite(ledSelector, HIGH);
 }

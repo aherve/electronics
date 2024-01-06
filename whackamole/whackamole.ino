@@ -4,10 +4,10 @@
 #define SHIFT_DATA 11
 
 // pins that can be fed by the multiplexer. Set to low to turn on (and attach a resistor to them)
-const int digitSelectors[4] = { 0, 1, 2, 3 };  // 4 x7 segment displays
+const int digitSelectors[4] = { 2, 3, 4, 5 };  // 4 x7 segment displays
 const int numberSegments[10] = { B00111111, B00000110, B01011011, B01001111, B01100110, B01101101, B01111101, B00000111, B01111111, B01101111 };
 
-#define ledSelector 4
+#define ledSelector 6
 bool ledState[5] = {true,false,true,false,true};
 bool buttonState[5] = {false,false,false,false,false};
 

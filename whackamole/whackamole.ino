@@ -1,7 +1,9 @@
 // serial communication with the shift register
-#define SHIFT_LATCH 13
-#define SHIFT_CLOCK 12
-#define SHIFT_DATA 11
+#define SHIFT_LATCH 10
+#define SHIFT_CLOCK 9
+#define SHIFT_DATA 8
+
+#define POWER_BOOTSTRAP 7
 
 // pins that can be fed by the multiplexer. Set to low to turn on (and attach a resistor to them)
 const int digitSelectors[4] = { 2, 3, 4, 5 };  // 4 x7 segment displays
@@ -14,6 +16,8 @@ bool buttonState[5] = {false,false,false,false,false};
 const int buttonInputPins[5] = {A0, A1, A2, A3, A4};
 
 void setup() {
+  pinMode(POWER_BOOTSTRAP, OUTPUT);
+  digitalWrite(POWER_BOOTSTRAP, HIGH);
   //set pins to output so you can control the shift register
   pinMode(SHIFT_LATCH, OUTPUT);
   pinMode(SHIFT_CLOCK, OUTPUT);
@@ -44,6 +48,14 @@ void loop() {
   whack();
   displayNumber(value);
   displayLEDs(ledState);
+  if(value > 10) {
+    shutDown();
+  }
+}
+
+void shutDown() {
+  digitalWrite(POWER_BOOTSTRAP, LOW);
+  delay(1000);
 }
 
 void whack() {

@@ -1,3 +1,15 @@
+#define PLAYER_RX 12
+#define PLAYER_TX 11
+
+#include <DFPlayerMini_Fast.h>
+#if !defined(UBRR1H)
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(PLAYER_RX, PLAYER_TX); // RX, TX
+#endif
+
+#define NUMBER_OF_TRACKS 11
+DFPlayerMini_Fast player;
+
 // serial communication with the shift register
 #define SHIFT_LATCH 10
 #define SHIFT_CLOCK 9
@@ -34,6 +46,17 @@ void setup() {
   for (int i = 0; i < 5; i++) {
     pinMode(buttonInputPins[i], INPUT_PULLUP);
   }
+  Serial.begin(115200);
+
+#if !defined(UBRR1H)
+  mySerial.begin(9600);
+  player.begin(mySerial, false);
+#else
+  Serial1.begin(9600);
+  player.begin(Serial1, false);
+#endif
+
+  randomSeed(analogRead(0));
 }
 
 unsigned long lastChange = millis();
@@ -48,14 +71,19 @@ void loop() {
   whack();
   displayNumber(value);
   displayLEDs(ledState);
-  if(value > 10) {
-    shutDown();
-  }
+  /*
+   *if(value > 100) {
+   *  shutDown();
+   *}
+   */
+}
+
+uint16_t randomTrack() {
+  return random(NUMBER_OF_TRACKS) + 1;
 }
 
 void shutDown() {
   digitalWrite(POWER_BOOTSTRAP, LOW);
-  delay(1000);
 }
 
 void whack() {
@@ -65,6 +93,10 @@ void whack() {
       // change on button from up to down 
       if (isPushed) {
         ledState[i] = !ledState[i];
+        if(ledState[i]){ 
+          /*player.playNext();*/
+          player.play(randomTrack());
+        }
       }
       buttonState[i] = isPushed;
     }

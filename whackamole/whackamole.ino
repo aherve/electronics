@@ -1,3 +1,12 @@
+// mesuré avec 216Ohm
+
+// jaune:  1.622, 15mA sans resistor
+// vert: 1.250, 11mA
+// rouge: 1.6 , 15mA
+// bleu: 1.2, 11mA
+// blanc: 1.2, 11.5mA
+
+
 #define PLAYER_RX 12
 #define PLAYER_TX 11
 
@@ -18,14 +27,14 @@ DFPlayerMini_Fast player;
 #define POWER_BOOTSTRAP 7
 
 // pins that can be fed by the multiplexer. Set to low to turn on (and attach a resistor to them)
-const int digitSelectors[4] = { 2, 3, 4, 5 };  // 4 x7 segment displays
+const int digitSelectors[4] = { 5,4,3,2 };  // 4 x7 segment displays
 const int numberSegments[10] = { B00111111, B00000110, B01011011, B01001111, B01100110, B01101101, B01111101, B00000111, B01111111, B01101111 };
 
-#define ledSelector 6
-bool ledState[5] = {true,false,true,false,true};
+#define ledSelector A5
+bool ledState[5] = {true,true,true,true,true};
 bool buttonState[5] = {false,false,false,false,false};
 
-const int buttonInputPins[5] = {A0, A1, A2, A3, A4};
+const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
 
 void setup() {
   pinMode(POWER_BOOTSTRAP, OUTPUT);
@@ -57,13 +66,15 @@ void setup() {
 #endif
 
   randomSeed(analogRead(0));
+
+  displayNumber(8);
 }
 
 unsigned long lastChange = millis();
 int value = 0;
 void loop() {
   unsigned long now = millis();
-  if (now - lastChange > 500) {
+  if (now - lastChange > 100) {
     value++;
     lastChange = now;
   }
@@ -71,11 +82,9 @@ void loop() {
   whack();
   displayNumber(value);
   displayLEDs(ledState);
-  /*
-   *if(value > 100) {
-   *  shutDown();
-   *}
-   */
+  if(value > 1000) {
+    shutDown();
+  }
 }
 
 uint16_t randomTrack() {
@@ -84,6 +93,7 @@ uint16_t randomTrack() {
 
 void shutDown() {
   digitalWrite(POWER_BOOTSTRAP, LOW);
+  delay(500);
 }
 
 void whack() {
@@ -93,8 +103,7 @@ void whack() {
       // change on button from up to down 
       if (isPushed) {
         ledState[i] = !ledState[i];
-        if(ledState[i]){ 
-          /*player.playNext();*/
+        if(!ledState[i]){ 
           player.play(randomTrack());
         }
       }

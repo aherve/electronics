@@ -1,12 +1,3 @@
-// mesuré avec 216Ohm
-
-// jaune:  1.622, 15mA sans resistor
-// vert: 1.250, 11mA
-// rouge: 1.6 , 15mA
-// bleu: 1.2, 11mA
-// blanc: 1.2, 11.5mA
-
-
 #define PLAYER_RX 12
 #define PLAYER_TX 11
 
@@ -31,10 +22,16 @@ const int digitSelectors[4] = { 5,4,3,2 };  // 4 x7 segment displays
 const int numberSegments[10] = { B00111111, B00000110, B01011011, B01001111, B01100110, B01101101, B01111101, B00000111, B01111111, B01101111 };
 
 #define ledSelector A5
-bool ledState[5] = {true,true,true,true,true};
+bool ledState[5] = {false,false,false,false,false};
 bool buttonState[5] = {false,false,false,false,false};
+unsigned long lastLEDChange[5] = {0,0,0,0,0};
+float lambdaForTurnOn = 1;
+float lambdaForTurnOff = 1;
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
+const unsigned long ONE_MINUTE = 60 * 1000;
+unsigned int lastAction = millis();
+int score = 0;
 
 void setup() {
   pinMode(POWER_BOOTSTRAP, OUTPUT);
@@ -66,34 +63,53 @@ void setup() {
 #endif
 
   randomSeed(analogRead(0));
-
-  displayNumber(8);
+  gameInit();
 }
 
-unsigned long lastChange = millis();
-int value = 0;
 void loop() {
   unsigned long now = millis();
-  if (now - lastChange > 100) {
-    value++;
-    lastChange = now;
-  }
 
+  lightUpOrDown();
   whack();
-  displayNumber(value);
+  displayNumber(score);
   displayLEDs(ledState);
-  if(value > 1000) {
-    shutDown();
+  maybeShutDown();
+}
+
+void lightUpOrDown() {
+  unsigned long now = millis();
+  bool allOff = true;
+  for (int i = 0; i < 5; i++) {
+    float sinceInseconds = (now - lastLEDChange[i]) / 1000;
+    float ran = 0.001 * random(10000);
+    float lambda = ledState[i] ? lambdaForTurnOff : lambdaForTurnOn;
+    if ((exp(sinceInseconds) / lambda) < ran) {
+      ledState[i] = !ledState[i];
+      lastLEDChange[i] = now;
+    }
+    allOff = allOff && !ledState[i];
   }
 }
 
-uint16_t randomTrack() {
+
+void gameInit() {
+  unsigned long now = millis();
+  for (int i = 0; i < 5; i++) {
+  ledState[i] = false;
+  lastLEDChange[i] = now;
+  score = 0;
+  } 
+}
+
+uint16_t randomSound() {
   return random(NUMBER_OF_TRACKS) + 1;
 }
 
-void shutDown() {
+void maybeShutDown() {
+  if (millis() - lastAction > ONE_MINUTE) {
   digitalWrite(POWER_BOOTSTRAP, LOW);
-  delay(500);
+  delay(1000);
+  }
 }
 
 void whack() {
@@ -101,10 +117,12 @@ void whack() {
     bool isPushed = digitalRead(buttonInputPins[i]) == LOW;
     if (isPushed != buttonState[i] ) {
       // change on button from up to down 
+      lastAction = millis();
       if (isPushed) {
         ledState[i] = !ledState[i];
         if(!ledState[i]){ 
-          player.play(randomTrack());
+          score +=10;
+          player.play(randomSound());
         }
       }
       buttonState[i] = isPushed;
@@ -112,18 +130,18 @@ void whack() {
   }
 }
 
-void displayNumber(int value) {
+void displayNumber(int score) {
   for (int digit = 0; digit < 4; digit++) {
-    if (value == 0 && digit > 0) {
+    if (score == 0 && digit > 0) {
       return;
     }
     digitalWrite(SHIFT_LATCH, LOW);
-    shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, numberSegments[value % 10]);
+    shiftOut(SHIFT_DATA, SHIFT_CLOCK, MSBFIRST, numberSegments[score % 10]);
     digitalWrite(SHIFT_LATCH, HIGH);
     digitalWrite(digitSelectors[digit], LOW);
     delay(1);
     digitalWrite(digitSelectors[digit], HIGH);
-    value = value / 10;
+    score = score / 10;
   }
 }
 

@@ -25,12 +25,12 @@ const int numberSegments[10] = { B00111111, B00000110, B01011011, B01001111, B01
 bool ledState[5] = {false,false,false,false,false};
 bool buttonState[5] = {false,false,false,false,false};
 unsigned long lastLEDChange[5] = {0,0,0,0,0};
-float lambdaForTurnOn = 1;
-float lambdaForTurnOff = 1;
+unsigned int ledStateDuration[5] = {0,0,0,0,0};
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
-const unsigned long ONE_MINUTE = 60 * 1000;
+const unsigned long TIMEOUT = 30 * 1000;
 unsigned int lastAction = millis();
+unsigned long slowTick = 0;
 int score = 0;
 
 void setup() {
@@ -63,52 +63,59 @@ void setup() {
 #endif
 
   randomSeed(analogRead(0));
+  player.volume(8);
   gameInit();
 }
 
 void loop() {
   unsigned long now = millis();
 
-  lightUpOrDown();
+  if (now - slowTick > 200) {
+    lightUpOrDown(now);
+    slowTick = now;
+    maybeShutDown(now);
+  }
   whack();
   displayNumber(score);
   displayLEDs(ledState);
-  maybeShutDown();
 }
 
-void lightUpOrDown() {
-  unsigned long now = millis();
-  bool allOff = true;
-  for (int i = 0; i < 5; i++) {
-    float sinceInseconds = (now - lastLEDChange[i]) / 1000;
-    float ran = 0.001 * random(10000);
-    float lambda = ledState[i] ? lambdaForTurnOff : lambdaForTurnOn;
-    if ((exp(sinceInseconds) / lambda) < ran) {
+void lightUpOrDown(unsigned long now) {
+  for (int i = 0; i < 5; i++ ) {
+    if(now - lastLEDChange[i] > ledStateDuration[i]) {
       ledState[i] = !ledState[i];
       lastLEDChange[i] = now;
+      ledStateDuration[i] = ledState[i] ? stayOnDuration() : stayOffDuration();
     }
-    allOff = allOff && !ledState[i];
   }
 }
-
 
 void gameInit() {
   unsigned long now = millis();
   for (int i = 0; i < 5; i++) {
-  ledState[i] = false;
-  lastLEDChange[i] = now;
-  score = 0;
+    ledState[i] = false;
+    lastLEDChange[i] = now;
+    score = 0;
+    ledStateDuration[i] = ledState[i] ? stayOnDuration() : stayOffDuration();
   } 
+}
+
+int stayOnDuration() {
+  return random(500,5000); // TODO: function of score
+}
+
+int stayOffDuration() {
+  return random(1500, 3000); // TODO: function of score
 }
 
 uint16_t randomSound() {
   return random(NUMBER_OF_TRACKS) + 1;
 }
 
-void maybeShutDown() {
-  if (millis() - lastAction > ONE_MINUTE) {
-  digitalWrite(POWER_BOOTSTRAP, LOW);
-  delay(1000);
+void maybeShutDown(unsigned long now) {
+  if (now - lastAction > TIMEOUT) {
+    digitalWrite(POWER_BOOTSTRAP, LOW);
+    delay(10000);
   }
 }
 
@@ -118,12 +125,10 @@ void whack() {
     if (isPushed != buttonState[i] ) {
       // change on button from up to down 
       lastAction = millis();
-      if (isPushed) {
-        ledState[i] = !ledState[i];
-        if(!ledState[i]){ 
-          score +=10;
-          player.play(randomSound());
-        }
+      if (isPushed && ledState[i]) {
+        player.play(randomSound());
+        ledState[i] = false;
+        score +=10;
       }
       buttonState[i] = isPushed;
     }

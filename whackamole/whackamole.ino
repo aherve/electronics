@@ -30,7 +30,6 @@ unsigned int ledStateDuration[5] = {0,0,0,0,0};
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
 const unsigned long TIMEOUT = 30 * 1000;
 unsigned int lastAction = millis();
-unsigned long slowTick = 0;
 int score = 0;
 
 void setup() {
@@ -69,13 +68,9 @@ void setup() {
 
 void loop() {
   unsigned long now = millis();
-
-  if (now - slowTick > 200) {
-    lightUpOrDown(now);
-    slowTick = now;
-    maybeShutDown(now);
-  }
-  whack();
+  lightUpOrDown(now);
+  maybeShutDown(now);
+  whack(now);
   displayNumber(score);
   displayLEDs(ledState);
 }
@@ -119,12 +114,12 @@ void maybeShutDown(unsigned long now) {
   }
 }
 
-void whack() {
+void whack(unsigned long now) {
   for (int i = 0; i < 5; i++) {
     bool isPushed = digitalRead(buttonInputPins[i]) == LOW;
     if (isPushed != buttonState[i] ) {
       // change on button from up to down 
-      lastAction = millis();
+      lastAction = now;
       if (isPushed && ledState[i]) {
         player.play(randomSound());
         ledState[i] = false;

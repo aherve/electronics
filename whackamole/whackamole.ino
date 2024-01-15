@@ -29,10 +29,11 @@ bool ledState[5] = {false,false,false,false,false};
 bool buttonState[5] = {false,false,false,false,false};
 unsigned long lastLEDChange[5] = {0,0,0,0,0};
 unsigned int ledStateDuration[5] = {0,0,0,0,0};
-const unsigned int gameStartedAt = 0;
+unsigned long gameStartedAt = 0;
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
 const unsigned long TIMEOUT = 30 * 1000;
+const unsigned long GAME_DURATION = 10000;
 unsigned int lastAction = millis();
 int score = 0;
 
@@ -67,6 +68,7 @@ void setup() {
 
   randomSeed(analogRead(0));
   player.volume(8);
+  delay(300);
   gameInit();
 }
 
@@ -91,25 +93,31 @@ void lightUpOrDown(unsigned long now) {
 }
 
 void maybeEndGame(unsigned long now) {
-  if (gameStartedAt > 0 && now - gameStartedAt > 60 * 1000) {
+  if ((gameStartedAt > 0) && (now - gameStartedAt > GAME_DURATION)) {
     player.play(SOUND_OUTRO);
-    gameInit();
+    gameStartedAt = 0;
+    // launch new game only if previous game was played;
+    if (score > 0) { 
+      while(millis() - now < 5000) {
+        displayNumber(score);
+      }
+      gameInit();
+    } else {
+      shutDown();
+    }
   }
-  while(millis() - now < 2000) {
-    displayNumber(score);
-  }
-  gameInit();
 }
 
 void gameInit() {
   unsigned long now = millis();
+  player.play(SOUND_INTRO);
   for (int i = 0; i < 5; i++) {
     ledState[i] = false;
     lastLEDChange[i] = now;
-    score = 0;
     ledStateDuration[i] = ledState[i] ? stayOnDuration() : stayOffDuration();
   } 
-  player.play(SOUND_INTRO);
+  score = 0;
+  gameStartedAt = now;
 }
 
 int stayOnDuration() {
@@ -124,10 +132,13 @@ uint16_t randomSound() {
   return random(SOUND_MIN, SOUND_MAX);
 }
 
+void shutDown() {
+  digitalWrite(POWER_BOOTSTRAP, LOW);
+  delay(10000);
+}
 void maybeShutDown(unsigned long now) {
   if (now - lastAction > TIMEOUT) {
-    digitalWrite(POWER_BOOTSTRAP, LOW);
-    delay(10000);
+    shutDown();
   }
 }
 

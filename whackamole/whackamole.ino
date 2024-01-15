@@ -7,7 +7,10 @@
 SoftwareSerial mySerial(PLAYER_RX, PLAYER_TX); // RX, TX
 #endif
 
-#define NUMBER_OF_TRACKS 11
+#define SOUND_INTRO 1
+#define SOUND_OUTRO 2
+#define SOUND_MIN 3
+#define SOUND_MAX 13
 DFPlayerMini_Fast player;
 
 // serial communication with the shift register
@@ -26,6 +29,7 @@ bool ledState[5] = {false,false,false,false,false};
 bool buttonState[5] = {false,false,false,false,false};
 unsigned long lastLEDChange[5] = {0,0,0,0,0};
 unsigned int ledStateDuration[5] = {0,0,0,0,0};
+const unsigned int gameStartedAt = 0;
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
 const unsigned long TIMEOUT = 30 * 1000;
@@ -68,6 +72,7 @@ void setup() {
 
 void loop() {
   unsigned long now = millis();
+  maybeEndGame(now);
   lightUpOrDown(now);
   maybeShutDown(now);
   whack(now);
@@ -85,6 +90,17 @@ void lightUpOrDown(unsigned long now) {
   }
 }
 
+void maybeEndGame(unsigned long now) {
+  if (gameStartedAt > 0 && now - gameStartedAt > 60 * 1000) {
+    player.play(SOUND_OUTRO);
+    gameInit();
+  }
+  while(millis() - now < 2000) {
+    displayNumber(score);
+  }
+  gameInit();
+}
+
 void gameInit() {
   unsigned long now = millis();
   for (int i = 0; i < 5; i++) {
@@ -93,6 +109,7 @@ void gameInit() {
     score = 0;
     ledStateDuration[i] = ledState[i] ? stayOnDuration() : stayOffDuration();
   } 
+  player.play(SOUND_INTRO);
 }
 
 int stayOnDuration() {
@@ -104,7 +121,7 @@ int stayOffDuration() {
 }
 
 uint16_t randomSound() {
-  return random(NUMBER_OF_TRACKS) + 1;
+  return random(SOUND_MIN, SOUND_MAX);
 }
 
 void maybeShutDown(unsigned long now) {

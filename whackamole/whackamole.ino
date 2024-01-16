@@ -9,8 +9,9 @@ SoftwareSerial mySerial(PLAYER_RX, PLAYER_TX); // RX, TX
 
 #define SOUND_INTRO 1
 #define SOUND_OUTRO 2
-#define SOUND_MIN 3
-#define SOUND_MAX 13
+#define SOUND_APPLAUDS 3
+#define SOUND_MIN 4 
+#define SOUND_MAX 19
 DFPlayerMini_Fast player;
 
 // serial communication with the shift register
@@ -33,7 +34,7 @@ unsigned long gameStartedAt = 0;
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
 const unsigned long TIMEOUT = 30 * 1000;
-const unsigned long GAME_DURATION = 10000;
+const unsigned long GAME_DURATION = 60000;
 unsigned int lastAction = millis();
 int score = 0;
 
@@ -56,18 +57,19 @@ void setup() {
   for (int i = 0; i < 5; i++) {
     pinMode(buttonInputPins[i], INPUT_PULLUP);
   }
-  Serial.begin(115200);
 
 #if !defined(UBRR1H)
   mySerial.begin(9600);
   player.begin(mySerial, false);
+  delay(300);
 #else
   Serial1.begin(9600);
   player.begin(Serial1, false);
+  delay(300);
 #endif
 
   randomSeed(analogRead(0));
-  player.volume(8);
+  player.volume(20);
   delay(300);
   gameInit();
 }
@@ -94,11 +96,17 @@ void lightUpOrDown(unsigned long now) {
 
 void maybeEndGame(unsigned long now) {
   if ((gameStartedAt > 0) && (now - gameStartedAt > GAME_DURATION)) {
-    player.play(SOUND_OUTRO);
+    bool highScore = score > 99;
+    delay(500);
+    if(highScore) {
+      player.play(SOUND_APPLAUDS);
+    } else {
+      player.play(SOUND_OUTRO);
+    }
     gameStartedAt = 0;
     // launch new game only if previous game was played;
     if (score > 0) { 
-      while(millis() - now < 5000) {
+      while(millis() - now < (highScore ? 8000 : 5000)) {
         displayNumber(score);
       }
       gameInit();
@@ -121,11 +129,32 @@ void gameInit() {
 }
 
 int stayOnDuration() {
-  return random(500,5000); // TODO: function of score
+  if (score < 10) {
+    return random(5000,10000);
+  }
+  if (score < 50) {
+    return random(3000,6000);
+  }
+  if (score < 100) {
+    return random(1000,3000);
+  }
+  if (score < 200) {
+    return random(500,2000);
+  }
+  return random(300, 1000);
 }
 
 int stayOffDuration() {
-  return random(1500, 3000); // TODO: function of score
+  if (score < 50) {
+    return random(1500, 3000);
+  }
+  if (score < 100) {
+    return random(1500, 3000);
+  }
+  if (score < 200) {
+    return random(500, 2000);
+  }
+  return random(500, 1500);
 }
 
 uint16_t randomSound() {
@@ -148,14 +177,46 @@ void whack(unsigned long now) {
     if (isPushed != buttonState[i] ) {
       // change on button from up to down 
       lastAction = now;
+      // successful hit
       if (isPushed && ledState[i]) {
         player.play(randomSound());
         ledState[i] = false;
-        score +=10;
+        ledStateDuration[i] = stayOffDuration();
+        incrementScore(now - lastLEDChange[i]);
+        lastLEDChange[i] = now;
+      } else if(isPushed && !ledState[i]) {
+        decrementScore();
       }
       buttonState[i] = isPushed;
     }
   }
+}
+
+void decrementScore() {
+  if (score == 0) {
+    return;
+  }
+  if (score < 100) {
+    score = score - 1;
+    return;
+  }
+  if (score < 500) {
+    score = score - 5;
+    return;
+  }
+  score = score - 10;
+}
+
+void incrementScore(unsigned long reactionTime) {
+  if (reactionTime < 500) {
+    score +=10;
+    return;
+  }
+  if (reactionTime < 1000) {
+    score +=5;
+    return;
+  }
+  score++;
 }
 
 void displayNumber(int score) {

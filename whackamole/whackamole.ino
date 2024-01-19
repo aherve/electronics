@@ -2,10 +2,8 @@
 #define PLAYER_TX 11
 
 #include <DFPlayerMini_Fast.h>
-#if !defined(UBRR1H)
 #include <SoftwareSerial.h>
-SoftwareSerial mySerial(PLAYER_RX, PLAYER_TX); // RX, TX
-#endif
+SoftwareSerial playerSerial(PLAYER_RX, PLAYER_TX); // RX, TX
 
 #define SOUND_INTRO 1
 #define SOUND_OUTRO 2
@@ -33,7 +31,7 @@ unsigned int ledStateDuration[5] = {0,0,0,0,0};
 unsigned long gameStartedAt = 0;
 
 const int buttonInputPins[5] = {A4, A3, A2, A1, A0};
-const unsigned long TIMEOUT = 30 * 1000;
+const unsigned long TIMEOUT = 50 * 1000;
 const unsigned long GAME_DURATION = 60000;
 unsigned int lastAction = millis();
 int score = 0;
@@ -41,6 +39,11 @@ int score = 0;
 void setup() {
   pinMode(POWER_BOOTSTRAP, OUTPUT);
   digitalWrite(POWER_BOOTSTRAP, HIGH);
+
+  playerSerial.begin(9600);
+  player.begin(playerSerial, false);
+  player.volume(20);
+
   //set pins to output so you can control the shift register
   pinMode(SHIFT_LATCH, OUTPUT);
   pinMode(SHIFT_CLOCK, OUTPUT);
@@ -57,20 +60,9 @@ void setup() {
   for (int i = 0; i < 5; i++) {
     pinMode(buttonInputPins[i], INPUT_PULLUP);
   }
-
-#if !defined(UBRR1H)
-  mySerial.begin(9600);
-  player.begin(mySerial, false);
-  delay(300);
-#else
-  Serial1.begin(9600);
-  player.begin(Serial1, false);
-  delay(300);
-#endif
-
   randomSeed(analogRead(0));
-  player.volume(20);
-  delay(300);
+
+  delay(300); // necessary to have sound, but why ლ(ಠ益ಠლ)
   gameInit();
 }
 
@@ -95,18 +87,19 @@ void lightUpOrDown(unsigned long now) {
 }
 
 void maybeEndGame(unsigned long now) {
-  if ((gameStartedAt > 0) && (now - gameStartedAt > GAME_DURATION)) {
-    bool highScore = score > 99;
-    delay(500);
-    if(highScore) {
+  if ((gameStartedAt > 0) && ((now - gameStartedAt) > GAME_DURATION)) {
+    gameStartedAt = 0;
+    unsigned long toWait;
+    if(score > 99) {
       player.play(SOUND_APPLAUDS);
+      toWait = 8000;
     } else {
       player.play(SOUND_OUTRO);
+      toWait = 5000;
     }
-    gameStartedAt = 0;
     // launch new game only if previous game was played;
     if (score > 0) { 
-      while(millis() - now < (highScore ? 8000 : 5000)) {
+      while((millis() - now) < toWait) {
         displayNumber(score);
       }
       gameInit();

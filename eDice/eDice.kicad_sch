@@ -1917,7 +1917,7 @@
     (property "Value" "100k" (at 203.2 44.45 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 203.2 50.038 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 203.2 50.038 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 203.2 48.26 0)
@@ -1926,7 +1926,7 @@
     (pin "1" (uuid 81799d20-8f7e-4336-926f-379d470c840e))
     (pin "2" (uuid 15d08cd0-b1b4-47f7-bbca-f8276e795c7f))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R6") (unit 1)
         )
@@ -1943,7 +1943,7 @@
     (property "Value" "SW_Push" (at 105.41 50.8 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "" (at 99.06 49.53 0)
+    (property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" (at 99.06 49.53 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 99.06 49.53 0)
@@ -1952,7 +1952,7 @@
     (pin "1" (uuid 311d950a-0828-4c77-81f2-f1a03ce24704))
     (pin "2" (uuid e5ea0667-34ef-41fa-b093-86237c5088bc))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "SW1") (unit 1)
         )
@@ -1969,7 +1969,7 @@
     (property "Value" "R" (at 176.53 113.03 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 172.212 111.76 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 172.212 111.76 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 173.99 111.76 0)
@@ -1978,7 +1978,7 @@
     (pin "1" (uuid 7f730882-2df3-4488-909e-08d10515f684))
     (pin "2" (uuid 5b33ace4-06d5-4ef9-ab20-18e7175acf7b))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R10") (unit 1)
         )
@@ -1995,7 +1995,7 @@
     (property "Value" "10k" (at 168.91 59.69 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 174.498 59.69 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 174.498 59.69 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 172.72 59.69 0)
@@ -2004,7 +2004,7 @@
     (pin "1" (uuid b9aac13a-1df8-4b65-ab41-c762b5c27af3))
     (pin "2" (uuid 16b7a9f4-908f-425e-adce-a0c7c5379ab7))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R4") (unit 1)
         )
@@ -2021,7 +2021,7 @@
     (property "Value" "10k" (at 182.88 59.69 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 188.468 59.69 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 188.468 59.69 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 186.69 59.69 0)
@@ -2030,7 +2030,7 @@
     (pin "1" (uuid 489cd410-2792-422f-acb2-6dfaa01c72f6))
     (pin "2" (uuid b6430fd3-1a5a-4bd0-9b5b-d3fcac706668))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R5") (unit 1)
         )
@@ -2055,7 +2055,7 @@
     )
     (pin "1" (uuid cda4654d-c59e-4d98-8473-13c08c686de1))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR03") (unit 1)
         )
@@ -2087,7 +2087,7 @@
     (pin "1" (uuid 2933840c-26fc-4693-9458-93a70a2eb9db))
     (pin "2" (uuid fc1c13b2-cdbb-45ee-848d-f7799c676a25))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "D1") (unit 1)
         )
@@ -2114,7 +2114,7 @@
     (pin "2" (uuid a322e143-55a2-4529-acb5-27f89feb0b1c))
     (pin "1" (uuid cbfb87c8-7cd9-49e2-9629-753d26287073))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "Q3") (unit 1)
         )
@@ -2148,7 +2148,7 @@
     (pin "1" (uuid fb0cf831-d3d8-4184-95d8-6987144e135e))
     (pin "4" (uuid 74b98ee3-eb5a-4236-888e-67259f64218d))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U4") (unit 1)
         )
@@ -2173,7 +2173,7 @@
     )
     (pin "1" (uuid ef911e7f-2cbb-477b-a601-715c87192c52))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR01") (unit 1)
         )
@@ -2190,7 +2190,7 @@
     (property "Value" "1k" (at 125.73 39.37 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 125.73 44.958 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 125.73 44.958 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 125.73 43.18 0)
@@ -2199,7 +2199,7 @@
     (pin "1" (uuid bac474b0-1b7d-40ab-875d-df16fdd7a873))
     (pin "2" (uuid 5e36ad36-0887-4a39-84c0-5ecee42b213d))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R3") (unit 1)
         )
@@ -2216,7 +2216,7 @@
     (property "Value" "4029" (at 214.2841 80.01 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 212.09 97.79 0)
+    (property "Footprint" "Package_DIP:DIP-16_W7.62mm_Socket" (at 212.09 97.79 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4029bms.pdf" (at 212.09 97.79 0)
@@ -2239,7 +2239,7 @@
     (pin "6" (uuid 5f63126c-e103-487f-81b3-0fc20aba32f2))
     (pin "13" (uuid a00c5bc1-8beb-407d-a8c4-0b87819409f5))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U2") (unit 1)
         )
@@ -2256,7 +2256,7 @@
     (property "Value" "4511" (at 144.4341 77.47 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 142.24 90.17 0)
+    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 142.24 90.17 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 142.24 90.17 0)
@@ -2279,7 +2279,7 @@
     (pin "6" (uuid a28817e0-0210-43ca-beca-603997cd0d03))
     (pin "7" (uuid 6628b77d-6227-4dcc-af79-c06b70e2250c))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U10") (unit 1)
         )
@@ -2296,7 +2296,7 @@
     (property "Value" "4511" (at 244.7641 77.47 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 242.57 90.17 0)
+    (property "Footprint" "Package_DIP:DIP-16_W7.62mm_Socket" (at 242.57 90.17 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 242.57 90.17 0)
@@ -2319,7 +2319,7 @@
     (pin "6" (uuid bdd4a851-a73c-48c4-aedc-34dd1cdd79ab))
     (pin "7" (uuid 26b9b822-4c20-4a34-8d6b-97661c1f0a14))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U3") (unit 1)
         )
@@ -2336,7 +2336,7 @@
     (property "Value" "10nF" (at 26.67 55.88 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "" (at 21.8948 50.8 0)
+    (property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" (at 21.8948 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 22.86 54.61 0)
@@ -2345,7 +2345,7 @@
     (pin "2" (uuid e3266e8d-a5bd-46f8-a6f7-e8b42eab8e18))
     (pin "1" (uuid 56923e9f-1ed1-4445-aa27-66db444db866))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "C2") (unit 1)
         )
@@ -2362,7 +2362,7 @@
     (property "Value" "PMOS" (at 82.55 54.61 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 81.28 58.42 0)
+    (property "Footprint" "Package_TO_SOT_THT:TO-92L_Inline" (at 81.28 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf" (at 76.2 43.18 0)
@@ -2381,7 +2381,7 @@
     (pin "2" (uuid dae34c49-51b4-44d3-83c9-1b1696e68add))
     (pin "1" (uuid 19cd264e-339e-4d16-902e-1ba68613ffbf))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "Q1") (unit 1)
         )
@@ -2406,7 +2406,7 @@
     )
     (pin "1" (uuid 559bcfaf-d1a3-40e1-bbd0-9b3ce574ceb9))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR04") (unit 1)
         )
@@ -2423,7 +2423,7 @@
     (property "Value" "R" (at 276.86 113.03 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 272.542 111.76 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 272.542 111.76 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 274.32 111.76 0)
@@ -2432,7 +2432,7 @@
     (pin "1" (uuid 9bdb1f22-ca80-4d6c-84c1-3e68f4848e73))
     (pin "2" (uuid 7a6fc4d3-c793-43f9-93e7-7f4b66fd0f8e))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R1") (unit 1)
         )
@@ -2449,7 +2449,7 @@
     (property "Value" "4029" (at 113.9541 80.01 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 111.76 97.79 0)
+    (property "Footprint" "Package_DIP:DIP-16_W7.62mm_Socket" (at 111.76 97.79 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4029bms.pdf" (at 111.76 97.79 0)
@@ -2472,7 +2472,7 @@
     (pin "6" (uuid 679d7b2c-c486-4fa5-aa31-9f222f68a6d0))
     (pin "13" (uuid db7d5999-fc6a-4557-9621-e9732fe377d0))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U12") (unit 1)
         )
@@ -2497,7 +2497,7 @@
     )
     (pin "1" (uuid 0f5ba41a-d713-40fa-825b-45827b776891))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR06") (unit 1)
         )
@@ -2522,7 +2522,7 @@
     )
     (pin "1" (uuid ecb18caf-3264-4c45-a332-fec455c9b751))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR07") (unit 1)
         )
@@ -2549,7 +2549,7 @@
     (pin "2" (uuid 9f3b2a4b-aa66-4f52-8c71-752975056521))
     (pin "1" (uuid 270520e3-8b25-4d5b-8190-52da3debee1f))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "Q2") (unit 1)
         )
@@ -2566,7 +2566,7 @@
     (property "Value" "R_Variable" (at 82.55 38.1 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 76.962 36.83 90)
+    (property "Footprint" "Potentiometer_THT:Potentiometer_Runtron_RM-063_Horizontal" (at 76.962 36.83 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 78.74 36.83 0)
@@ -2575,7 +2575,7 @@
     (pin "1" (uuid 64606e28-bb2c-456e-abfc-87b77ef1b145))
     (pin "2" (uuid 05ce292d-9425-4d43-9ab9-e6b5b54543a1))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R8") (unit 1)
         )
@@ -2607,7 +2607,7 @@
     (pin "4" (uuid 9d5b1004-1e85-4c4e-be98-5b336043c88b))
     (pin "2" (uuid 13111659-ba4e-4123-bb94-e55481c05c36))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U1") (unit 1)
         )
@@ -2624,7 +2624,7 @@
     (property "Value" "C" (at 121.92 50.8 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 119.0752 53.34 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" (at 119.0752 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 118.11 49.53 0)
@@ -2633,7 +2633,7 @@
     (pin "2" (uuid 4f0b641c-aa32-4ecf-beb8-88507f16273d))
     (pin "1" (uuid 2cb3691d-a7f3-4e03-933d-b0db3f0e6988))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "C3") (unit 1)
         )
@@ -2650,7 +2650,7 @@
     (property "Value" "R" (at 107.95 35.56 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 102.362 35.56 90)
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal" (at 102.362 35.56 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 104.14 35.56 0)
@@ -2659,7 +2659,7 @@
     (pin "1" (uuid 62f5d50d-86d2-4636-be30-bbc315d2689a))
     (pin "2" (uuid 863c4f49-0968-4c72-b564-4b6c0cbf53ce))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "R2") (unit 1)
         )
@@ -2676,7 +2676,7 @@
     (property "Value" "buzzer" (at 38.1 87.63 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 33.02 90.17 0)
+    (property "Footprint" "Buzzer_Beeper:Buzzer_D14mm_H7mm_P10mm" (at 33.02 90.17 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 32.766 86.36 0)
@@ -2685,7 +2685,7 @@
     (pin "2" (uuid fba0ad7b-c67f-4ff3-80ca-e557ce948063))
     (pin "1" (uuid cc0f539f-b9f0-4bcc-84f9-f08f5df41820))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "LS1") (unit 1)
         )
@@ -2719,7 +2719,7 @@
     (pin "1" (uuid 12ac8f7f-fe7b-44ac-a23e-58099122e49f))
     (pin "4" (uuid 424feb1b-53fa-43a2-9de0-1d099af2ccaa))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "U11") (unit 1)
         )
@@ -2733,10 +2733,10 @@
     (property "Reference" "C1" (at 82.55 69.85 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "C" (at 82.55 72.39 0)
+    (property "Value" "100nF" (at 82.55 72.39 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 79.7052 74.93 0)
+    (property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" (at 79.7052 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 78.74 71.12 0)
@@ -2745,7 +2745,7 @@
     (pin "2" (uuid eb642aca-f4c1-4b23-9551-3e04794900ef))
     (pin "1" (uuid 29917e36-7292-4799-bd2c-3bc8b4d42b6c))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "C1") (unit 1)
         )
@@ -2762,7 +2762,7 @@
     (property "Value" "C_Polarized" (at 31.75 96.901 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 28.9052 100.33 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" (at 28.9052 100.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 27.94 96.52 0)
@@ -2771,7 +2771,7 @@
     (pin "1" (uuid e66735ba-a4db-4237-b6c5-df79b4428177))
     (pin "2" (uuid 94484d08-20f1-4836-959a-4a65e439f100))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "C4") (unit 1)
         )
@@ -2796,7 +2796,7 @@
     )
     (pin "1" (uuid 5e2009ec-1874-40b2-ad17-d685265c5316))
     (instances
-      (project "nixieDice"
+      (project "eDice"
         (path "/55667a43-869d-46b1-84ee-0f9c7f95f7db"
           (reference "#PWR02") (unit 1)
         )

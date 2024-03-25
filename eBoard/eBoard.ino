@@ -1,85 +1,58 @@
+#define upTres 700
+#define downTres 200
+#define boardSize 2
+
+int boardState[boardSize][boardSize];
+int analgoReadPins[boardSize] = {A0, A1};
+int digitalWritePins[boardSize] = {7, 8};
+
 void setup() {
-  // put your setup code here, to run once:
-  pinMode(A0, INPUT);
-  pinMode(A1, INPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  digitalWrite(7, LOW);
-  digitalWrite(8, LOW);
+  for (int i = 0; i < boardSize; i++) {
+    pinMode(analgoReadPins[i], INPUT);
+    pinMode(digitalWritePins[i], OUTPUT);
+    digitalWrite(digitalWritePins[i], LOW);
+  }
   Serial.begin(9600);
-  Serial.println('hello');
 }
 
-int q0 = 3;
-int q1 = 3;
-int q2 = 3;
-int q3 = 3;
-int read;
+bool readBoard() {
+  int changed = false;
+  for (int i = 0; i < boardSize; i++) {
+    digitalWrite(digitalWritePins[i], HIGH);
+    for (int j = 0; j < boardSize; j++) {
+      int read = analogRead(analgoReadPins[j]);
+      if (read < downTres) {
+        read = -1;
+      } else if (read > upTres) {
+        read = 1;
+      } else {
+        read = 0;
+      }
+      if (read != boardState[i][j]) {
+        changed = true;
+        boardState[i][j] = read;
+      }
+    }
+    digitalWrite(digitalWritePins[i], LOW);
+  }
+  return changed;
+}
+
 void loop() {
 
-  digitalWrite(7, HIGH);
-  read = analogRead(A0);
-  Serial.println(read);
-
-  if (read < 200 && q0 != 0) {
-    q0 = 0;
-    display();
-  } else if (read < 700 && read > 200 && q0 != 1) {
-    q0 = 1;
-    display();
-  } else if (read > 700 && q0 != 2) {
-    q0 = 2;
-    display();
+  if (readBoard()) {
+    display(boardState);
   }
-  read = analogRead(A1);
 
-  if (read < 200 && q1 != 0) {
-    q1 = 0;
-    display();
-  } else if (read < 700 && read > 200 && q1 != 1) {
-    q1 = 1;
-    display();
-  } else if (read > 700 && q1 != 2) {
-    q1 = 2;
-    display();
-  }
-  digitalWrite(7, LOW);
-
-  digitalWrite(8, HIGH);
-  read = analogRead(A0);
-
-  if (read < 200 && q2 != 0) {
-    q2 = 0;
-    display();
-  } else if (read < 700 && read > 200 && q2 != 1) {
-    q2 = 1;
-    display();
-  } else if (read > 700 && q2 != 2) {
-    q2 = 2;
-    display();
-  }
-  read = analogRead(A1);
-
-  if (read < 200 && q3 != 0) {
-    q3 = 0;
-    display();
-  } else if (read < 700 && read > 200 && q3 != 1) {
-    q3 = 1;
-    display();
-  } else if (read > 700 && q3 != 2) {
-    q3 = 2;
-    display();
-  }
-  digitalWrite(8, LOW);
 }
 
-void display() {
-  Serial.print(q0);
-  Serial.print(", ");
-  Serial.print(q1);
-  Serial.print(", ");
-  Serial.print(q2);
-  Serial.print(", ");
-  Serial.print(q3);
-  Serial.print("\n");
+void display(int boardState[boardSize][boardSize]) {
+  Serial.println("--------");
+  for (int i =0; i < boardSize; i++) {
+    for (int j = 0; j < boardSize; j++) {
+      Serial.print(boardState[i][j]);
+      Serial.print(" ");
+    }
+    Serial.println();
+  }
 }

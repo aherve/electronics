@@ -1,5 +1,5 @@
-#define upTres 700
-#define downTres 200
+#define upTres 500
+#define downTres 470
 #define boardSize 2
 
 int boardState[boardSize][boardSize];

@@ -9,10 +9,10 @@
 
 int boardState[boardSize][boardSize];
 bool ledState[boardSize][boardSize] = {
-  {true, false},
-  {false, true}
+  { true, false },
+  { false, true }
 };
-int const readPins[boardSize] {A0, A1};
+int const readPins[boardSize]{ A0, A1 };
 
 void setup() {
   for (int i = 0; i < boardSize; i++) {
@@ -21,6 +21,8 @@ void setup() {
     pinMode(clockPin, OUTPUT);
     pinMode(ledLatchPin, OUTPUT);
     pinMode(hallLatchPin, OUTPUT);
+    digitalWrite(hallLatchPin, LOW);
+    digitalWrite(ledLatchPin, LOW);
   }
   Serial.begin(9600);
 }
@@ -62,24 +64,27 @@ void displayLEDs() {
         break;
       }
     }
-    if (!hasValue) { continue; }
+    if (!hasValue) {
+      iByte = iByte << 1;
+      continue;
+    }
 
     int jByte = 0;
     for (int j = 0; j < boardSize; j++) {
-      jByte << 1;
-      if (ledState[i][j]) {
+      jByte = jByte << 1;
+      if (!ledState[i][j]) {
         jByte++;
       }
     }
 
+    shiftOut(dataPin, clockPin, MSBFIRST, jByte);  // j
+    shiftOut(dataPin, clockPin, MSBFIRST, iByte);  // i
     shiftOut(dataPin, clockPin, MSBFIRST, 0);
-    shiftOut(dataPin, clockPin, MSBFIRST, iByte);
-    shiftOut(dataPin, clockPin, MSBFIRST, jByte);
+
     digitalWrite(ledLatchPin, HIGH);
-    delay(10);
     digitalWrite(ledLatchPin, LOW);
 
-    iByte << 1;
+    iByte = iByte << 1;
   }
 }
 
@@ -96,13 +101,15 @@ void loop() {
         ledState[i][j] = !ledState[i][j];
       }
     }
+    lastLedChange = millis();
   }
 
+  displayLEDs();
 }
 
 void display(int boardState[boardSize][boardSize]) {
   Serial.println("--------");
-  for (int i =0; i < boardSize; i++) {
+  for (int i = 0; i < boardSize; i++) {
     for (int j = 0; j < boardSize; j++) {
       Serial.print(boardState[i][j]);
       Serial.print(" ");

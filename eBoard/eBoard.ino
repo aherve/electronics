@@ -36,7 +36,6 @@ bool readBoard() {
   for (byte i = 0; i < boardSize; i++) {
     SPI.transfer(iByte);
     digitalWrite(hallLatchPin, HIGH);
-    delay(1);
     digitalWrite(hallLatchPin, LOW);
     for (byte j = 0; j < boardSize; j++) {
       int read = analogRead(readPins[j]);
@@ -86,7 +85,7 @@ void displayLEDs() {
 
     digitalWrite(ledLatchPin, HIGH);
     digitalWrite(ledLatchPin, LOW);
-    delay(2);
+    delay(2); // don't iterate too fast, or some leds won't light up properly
 
     iByte <<= 1;
   }

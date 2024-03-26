@@ -1,11 +1,10 @@
+#include <SPI.h>
+
 #define upTres 500
 #define downTres 470
 #define boardSize 2
-#define dataPin 2
-#define clockPin 3
 #define ledLatchPin 4
 #define hallLatchPin 5
-
 
 int boardState[boardSize][boardSize];
 bool ledState[boardSize][boardSize] = {
@@ -25,14 +24,17 @@ void setup() {
     digitalWrite(ledLatchPin, LOW);
     digitalWrite(clockPin, LOW);
   }
+  SPI.begin();
   Serial.begin(9600);
+  Serial.println("Hello");
+  displayBoard();
 }
 
 bool readBoard() {
   int changed = false;
   byte iByte = 1;
   for (byte i = 0; i < boardSize; i++) {
-    shiftOut(dataPin, clockPin, MSBFIRST, iByte);
+    SPI.transfer(iByte);
     digitalWrite(hallLatchPin, HIGH);
     delay(1);
     digitalWrite(hallLatchPin, LOW);
@@ -73,17 +75,18 @@ void displayLEDs() {
     byte jByte = 0;
     for (byte j = 0; j < boardSize; j++) {
       jByte <<= 1;
-      if (!ledState[i][j]) { // 0 to enable
+      if (!ledState[i][j]) {  // 0 to enable
         jByte++;
       }
     }
 
-    shiftOut(dataPin, clockPin, MSBFIRST, jByte);  // j
-    shiftOut(dataPin, clockPin, MSBFIRST, iByte);  // i
-    shiftOut(dataPin, clockPin, MSBFIRST, 0);
+    SPI.transfer(jByte);
+    SPI.transfer(iByte);
+    SPI.transfer(0);
 
     digitalWrite(ledLatchPin, HIGH);
     digitalWrite(ledLatchPin, LOW);
+    delay(2);
 
     iByte <<= 1;
   }

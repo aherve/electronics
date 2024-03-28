@@ -16,13 +16,10 @@ int const readPins[boardSize]{ A0, A1 };
 void setup() {
   for (int i = 0; i < boardSize; i++) {
     pinMode(readPins[i], INPUT);
-    pinMode(dataPin, OUTPUT);
-    pinMode(clockPin, OUTPUT);
     pinMode(ledLatchPin, OUTPUT);
     pinMode(hallLatchPin, OUTPUT);
     digitalWrite(hallLatchPin, LOW);
     digitalWrite(ledLatchPin, LOW);
-    digitalWrite(clockPin, LOW);
   }
   SPI.begin();
   Serial.begin(9600);
